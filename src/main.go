@@ -1,6 +1,5 @@
 package main
 
-// imports
 import (
 	"fmt"
 	"io"
@@ -17,13 +16,6 @@ import (
 
 //starts http server
 func main() {
-	godotenv.Load()
-	BOT_TOKEN := os.Getenv("BOT_TOKEN")
-	sess, err := discordgo.New("Bot " + BOT_TOKEN)
-	if err != nil {
-		log.Fatal(err)
-	}
-	
 	go func() {
 		http.HandleFunc("/", getRoot)
 		err := http.ListenAndServe(":8080", nil)
@@ -38,6 +30,15 @@ func getRoot(w http.ResponseWriter, r *http.Request) {
 	fmt.Printf("got / request\n")
 	io.WriteString(w, "Excalibur is at render.com now.. 🚀\n")
 }
+
+func main() {
+	godotenv.Load()
+	BOT_TOKEN := os.Getenv("BOT_TOKEN")
+	sess, err := discordgo.New("Bot " + BOT_TOKEN)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	// Handlers
 	sess.AddHandler(onGuildCreate)
 	sess.AddHandler(LeaveEveryServer)
