@@ -17,6 +17,13 @@ import (
 
 //starts http server
 func main() {
+	godotenv.Load()
+	BOT_TOKEN := os.Getenv("BOT_TOKEN")
+	sess, err := discordgo.New("Bot " + BOT_TOKEN)
+	if err != nil {
+		log.Fatal(err)
+	}
+	
 	go func() {
 		http.HandleFunc("/", getRoot)
 		err := http.ListenAndServe(":8080", nil)
